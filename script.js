@@ -29,6 +29,8 @@ let selectedCardTitle = null;
 let selectedCardDescription = null;
 let selectedContainer = null;
 let editTaskId = null;
+let offsetX = null
+let offsetY = null
 
 openOverlayBtn.addEventListener("click", () => {
   overlay.classList.add("show");
@@ -218,7 +220,10 @@ main.addEventListener("pointerdown", (e) => {
     selectedCardId = selectedCard.id;
     hold = true;
     main.style.cursor = "grabbing";
-    cardWidth = selectedCard.getBoundingClientRect().width;
+    const cardRect = selectedCard.getBoundingClientRect()
+    offsetX = e.pageX - cardRect.left;
+    offsetY = e.pageY - cardRect.top;
+    cardWidth = cardRect.width;
     selectedCardTitle = selectedCard.querySelector("h2").innerText;
     selectedCardDescription = selectedCard.querySelector("p").innerText;
     exampleCard.querySelector("h2").innerText = selectedCardTitle;
@@ -230,9 +235,9 @@ main.addEventListener("pointermove", (e) => {
   if (hold) {
     exampleCard.classList.add("show");
     exampleCard.style.width = cardWidth + "px";
-    exampleCard.style.left = e.x - (cardWidth / 2) + "px";
+    exampleCard.style.left = e.x - offsetX + "px";
     exampleCard.style.top =
-      e.y - (exampleCard.getBoundingClientRect().height / 2) + "px";
+      e.y - offsetY + "px";
   }
 });
 
