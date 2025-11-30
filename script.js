@@ -1,7 +1,3 @@
-// window.onerror = function(message) {
-//   alert("Error: " + message);
-// };
-
 const openOverlayBtn = document.querySelector(".add-task-btn");
 const closeOverlayBtn = document.querySelector(".close-overlay");
 const overlay = document.querySelector(".overlay");
@@ -147,13 +143,12 @@ function renderTasks() {
 renderTasks();
 
 function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }
-
 
 function handleFormSubmit() {
   if (editTaskId) {
@@ -192,6 +187,10 @@ main.addEventListener("click", (e) => {
   const deleteBtn = e.target.closest(".delete-btn");
   const editBtn = e.target.closest(".edit-btn");
 
+  if (editBtn || deleteBtn) {
+    e.stopPropagation();
+  }
+
   if (deleteBtn) {
     const deleteCardId = deleteBtn.parentElement.id;
     tasksData = tasksData.filter((taskData) => taskData.id !== deleteCardId);
@@ -202,7 +201,6 @@ main.addEventListener("click", (e) => {
     editTaskId = editBtn.parentElement.id;
     overlay.classList.add("show");
     taskTitleInput.focus();
-    console.dir(editBtn.parentElement);
     taskTitleInput.value =
       editBtn.parentElement.previousElementSibling.previousElementSibling.innerText;
     taskDescriptionInput.value =
@@ -212,13 +210,14 @@ main.addEventListener("click", (e) => {
 });
 
 main.addEventListener("pointerdown", (e) => {
+   if (e.target.closest(".edit-btn, .delete-btn")) return;
   main.setPointerCapture(e.pointerId);
   selectedCard = e.target.closest(".card");
-  selectedCardId = selectedCard.id;
   selectedContainer = e.target.closest(".container");
   if (selectedCard) {
-    main.style.cursor = "grabbing";
+    selectedCardId = selectedCard.id;
     hold = true;
+    main.style.cursor = "grabbing";
     cardWidth = selectedCard.getBoundingClientRect().width;
     selectedCardTitle = selectedCard.querySelector("h2").innerText;
     selectedCardDescription = selectedCard.querySelector("p").innerText;
@@ -238,6 +237,7 @@ main.addEventListener("pointermove", (e) => {
 });
 
 main.addEventListener("pointerup", (e) => {
+   if (e.target.closest(".edit-btn, .delete-btn")) return;
   hold = false;
   main.style.cursor = "auto";
 
@@ -281,21 +281,6 @@ main.addEventListener("pointerup", (e) => {
   newContainer.style.borderColor = "transparent";
 });
 
-
-// containers.forEach((container) => {
-//   container.addEventListener("pointerenter", (e) => {
-//     if (hold && container !== selectedContainer) {
-//       container.style.scale = 1.01;
-//       container.style.borderColor = "white";
-//     }
-//   });
-
-//   container.addEventListener("pointerleave", (e) => {
-//     container.style.scale = 1;
-//     container.style.borderColor = "transparent";
-//   });
-// });
-
 document.addEventListener("pointermove", (e) => {
   if (!hold) return;
 
@@ -320,4 +305,3 @@ document.addEventListener("pointermove", (e) => {
     }
   });
 });
-
