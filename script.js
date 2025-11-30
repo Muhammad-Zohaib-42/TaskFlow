@@ -189,7 +189,6 @@ form.addEventListener("submit", (e) => {
 });
 
 main.addEventListener("click", (e) => {
-  e.stopPropagation()
   const deleteBtn = e.target.closest(".delete-btn");
   const editBtn = e.target.closest(".edit-btn");
 

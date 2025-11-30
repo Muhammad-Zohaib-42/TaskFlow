@@ -271,6 +271,9 @@ textarea {
   main {
     flex-wrap: wrap;
     gap: 1.3rem;
+    height: calc(100dvh - 80px);
+    align-content: flex-start;
+    overflow-x: hidden;
   }
   form {
     padding: 20px 16px;
