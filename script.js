@@ -210,7 +210,7 @@ main.addEventListener("click", (e) => {
 });
 
 main.addEventListener("pointerdown", (e) => {
-   if (e.target.closest(".edit-btn, .delete-btn")) return;
+  if (e.target.closest(".edit-btn, .delete-btn")) return;
   main.setPointerCapture(e.pointerId);
   selectedCard = e.target.closest(".card");
   selectedContainer = e.target.closest(".container");
@@ -230,14 +230,14 @@ main.addEventListener("pointermove", (e) => {
   if (hold) {
     exampleCard.classList.add("show");
     exampleCard.style.width = cardWidth + "px";
-    exampleCard.style.left = e.x - cardWidth / 2 + "px";
+    exampleCard.style.left = e.x - (cardWidth / 2) + "px";
     exampleCard.style.top =
-      e.y - exampleCard.getBoundingClientRect().height + "px";
+      e.y - (exampleCard.getBoundingClientRect().height / 2) + "px";
   }
 });
 
 main.addEventListener("pointerup", (e) => {
-   if (e.target.closest(".edit-btn, .delete-btn")) return;
+  if (e.target.closest(".edit-btn, .delete-btn")) return;
   hold = false;
   main.style.cursor = "auto";
 
