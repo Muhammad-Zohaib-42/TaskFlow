@@ -29,8 +29,8 @@ let selectedCardTitle = null;
 let selectedCardDescription = null;
 let selectedContainer = null;
 let editTaskId = null;
-let offsetX = null
-let offsetY = null
+let offsetX = null;
+let offsetY = null;
 
 openOverlayBtn.addEventListener("click", () => {
   overlay.classList.add("show");
@@ -86,9 +86,14 @@ function renderTasks() {
 
   tasksData.forEach((taskData) => {
     const card = document.createElement("div");
-    card.className = "card";
+    card.classList.add("card", "new")
     card.id = taskData.id;
     card.innerHTML = `
+            <div class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <h2>${taskData.title}</h2>
             <p>${taskData.description}</p>
             <div class="card-btn-wrapper" id=${taskData.id}>
@@ -220,7 +225,7 @@ main.addEventListener("pointerdown", (e) => {
     selectedCardId = selectedCard.id;
     hold = true;
     main.style.cursor = "grabbing";
-    const cardRect = selectedCard.getBoundingClientRect()
+    const cardRect = selectedCard.getBoundingClientRect();
     offsetX = e.pageX - cardRect.left;
     offsetY = e.pageY - cardRect.top;
     cardWidth = cardRect.width;
@@ -236,8 +241,7 @@ main.addEventListener("pointermove", (e) => {
     exampleCard.classList.add("show");
     exampleCard.style.width = cardWidth + "px";
     exampleCard.style.left = e.x - offsetX + "px";
-    exampleCard.style.top =
-      e.y - offsetY + "px";
+    exampleCard.style.top = e.y - offsetY + "px";
   }
 });
 
@@ -275,10 +279,6 @@ main.addEventListener("pointerup", (e) => {
     tasksData[index].done = false;
     tasksData[index][newContainer.id] = true;
     renderTasks();
-
-    if (newContainer.id === "done") {
-      selectedCard.classList.add("done-card");
-    }
   }
 
   exampleCard.classList.remove("show");
